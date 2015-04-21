@@ -7,10 +7,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -30,6 +32,7 @@ public class SimpleToDoList extends JFrame {
 	private DefaultListModel<String> taskListModel;
 	private JTextField textField;
 	private final Font PREFERRED_FONT = new Font("Arial", Font.PLAIN, 16);
+	private JFileChooser fileChooser;
 
 	/**
 	 * Launch the application.
@@ -71,6 +74,7 @@ public class SimpleToDoList extends JFrame {
 
 		initialzeBottomPanel();
 		initialzeUpperPanel();
+		initialFileChooser();
 	}
 
 	private void initialzeBottomPanel() {
@@ -158,6 +162,14 @@ public class SimpleToDoList extends JFrame {
 		mnFile.add(mntmExit);
 	}
 
+	private void initialFileChooser() {
+		fileChooser = new JFileChooser();
+		/*
+		 * FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		 * "Text-only", "txt", "todolist","list"); fc.setFileFilter(filter);
+		 */
+	}
+
 	private void taskDone() {
 		int selectedTaskIndex = tasksList.getSelectedIndex();
 		if (selectedTaskIndex > -1) {
@@ -179,12 +191,31 @@ public class SimpleToDoList extends JFrame {
 	}
 
 	private void saveTasks() {
-		// TODO 存檔, 使用I/O類即可
+
+		int returnVal = fileChooser.showSaveDialog(SimpleToDoList.this);
+		
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File saveFile = fileChooser.getSelectedFile();
+			// TODO 存檔, 使用I/O類即可
+
+		} else {
+			System.out.println("Cancelled by user");
+		}
 
 	}
 
 	private void loadTasks() {
-		// TODO 讀檔, 使用I/O類即可
+
+		int returnVal = fileChooser.showOpenDialog(SimpleToDoList.this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File loadedFile = fileChooser.getSelectedFile();
+			// TODO 讀檔, 使用I/O類即可
+
+		} else {
+
+			System.out.println("Cancelled by user");
+		}
 
 	}
 
