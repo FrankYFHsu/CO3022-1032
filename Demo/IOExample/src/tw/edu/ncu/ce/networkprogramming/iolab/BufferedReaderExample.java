@@ -16,14 +16,13 @@ public class BufferedReaderExample {
 
 			File destFile = new File("outputFile.txt");
 
-			PrintWriter pw = new PrintWriter(new FileWriter(destFile));
-
+			PrintWriter pw = new PrintWriter(new FileWriter(destFile),true);
+			//第二個參數設true, println,printf,format會autoflush
 			String readStrings;
 
 			while ((readStrings = br.readLine()) != null) {
 				pw.printf("%s\n", readStrings);
 				// 最後一行會有換行符號
-				// pwintWriter不用flush
 			}
 
 			br.close();
