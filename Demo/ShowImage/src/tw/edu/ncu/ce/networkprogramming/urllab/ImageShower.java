@@ -73,14 +73,14 @@ public class ImageShower extends JFrame {
 					myPicture = ImageIO.read(url);
 					Thread.sleep(5000);// Simulate a long latency
 					label.setIcon(new ImageIcon(myPicture));
-					
+
 					mFrame.pack();
-					
+
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
+
 					e1.printStackTrace();
 				}
 
