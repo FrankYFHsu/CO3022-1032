@@ -16,9 +16,11 @@ public class TCPClientExample {
 
 	public void sendMessage() throws IOException {
 		String message = "Hi";
-		byte[] data = message.getBytes();
 		OutputStream out = socket.getOutputStream();
-		out.write(data);
+		PrintWriter pw = new PrintWriter(out);
+		pw.println(message);
+		pw.flush();	
+		pw.close();//send eof?
 	}
 
 	public void closeSocket() throws IOException {

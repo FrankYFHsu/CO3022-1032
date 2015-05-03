@@ -11,7 +11,7 @@ public class TCPDemo {
 		tcpServer.acceptClientSocket();
 		tcpClient.sendMessage();
 		tcpServer.receiveMessage();
-
+		
 		tcpServer.closeClientSocket();
 		tcpClient.closeSocket();
 

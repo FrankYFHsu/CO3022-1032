@@ -1,6 +1,7 @@
 package tw.edu.ncu.ce.networkprogramming.socketlab.tcp;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -12,15 +13,16 @@ public class UseSocketCheckHTTP {
 	public static void main(String[] args) {
 		String host = "www.ncu.edu.tw";
 		int port = 80;
-		
+
 		try {
 			Socket socket = new Socket(host, port);
 
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(
 					socket.getOutputStream()), true);
-			pw.println("GET / HTTP/1.1");
-			pw.println("HOST: "+host);
-			pw.println();
+			pw.printf("GET / HTTP/1.1\n");
+			pw.printf("HOST: " + host+"\n");
+			pw.printf("Connection: close\r\n\r\n");
+
 
 			Scanner sc = new Scanner(socket.getInputStream());
 			while (sc.hasNextLine())
@@ -28,6 +30,7 @@ public class UseSocketCheckHTTP {
 
 			sc.close();
 			pw.close();
+			socket.close();
 
 		} catch (UnknownHostException e) {
 

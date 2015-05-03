@@ -1,6 +1,7 @@
 package tw.edu.ncu.ce.networkprogramming.socketlab.tcp;
 
 import java.net.*;
+import java.util.Scanner;
 import java.io.*;
 
 public class TCPServerExample {
@@ -21,17 +22,19 @@ public class TCPServerExample {
 	}
 
 	public void receiveMessage() throws IOException {
-		int recvMsgSize;
-		int bufSize = 1024;
-		byte[] receiveBuf = new byte[bufSize];
-		InputStream in = clntSock.getInputStream();
 
-		while ((recvMsgSize = in.read(receiveBuf)) != -1) {
-			System.out.println(new String(receiveBuf, 0, recvMsgSize));
+		InputStream in = clntSock.getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+		String str;
+		while((str=br.readLine())!=null){
+			System.out.println(str);
 		}
+		System.out.println("end");
 	}
 
 	public void closeClientSocket() throws IOException {
 		clntSock.close();
+		servSock.close();
 	}
 }
