@@ -17,18 +17,22 @@ public class TCPEchoClient {
 
 	public void startEchoService(String ip, int port) {
 
-		try {
-			Socket socketToServer = new Socket(ip, port);
+		/*
+		 * Using try-with-resources statement the Java runtime will close these
+		 * resources automatically.
+		 */
+		try (Socket socketToServer = new Socket(ip, port);
 
-			Scanner sc = new Scanner(System.in);
+				Scanner sc = new Scanner(System.in);
 
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(
-					socketToServer.getOutputStream()));
-			Scanner inputScanner = new Scanner(socketToServer.getInputStream());
+				PrintWriter pw = new PrintWriter(new OutputStreamWriter(
+						socketToServer.getOutputStream()));
+				Scanner inputScanner = new Scanner(
+						socketToServer.getInputStream())) {
 
 			while (sc.hasNextLine()) {
 				String message = sc.nextLine();
-				if (message.equals("quit")||message.equals("exit")) {
+				if (message.equals("quit") || message.equals("exit")) {
 					break;
 				}
 				pw.println(message);
@@ -39,17 +43,19 @@ public class TCPEchoClient {
 				print("receive: " + echoMessage);
 
 			}
-			inputScanner.close();
-			pw.close();
-			sc.close();
-			socketToServer.close();
+			/*
+			 * The following is not required.
+			 * inputScanner.close(); pw.close(); sc.close();
+			 * socketToServer.close();
+			 */
 
 		} catch (IOException e) {
 			print("Client Error:" + e.getMessage());
 		}
 
 	}
-	public static void print(String message){
+
+	public static void print(String message) {
 		System.out.println(message);
 	}
 
