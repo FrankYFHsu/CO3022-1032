@@ -14,23 +14,19 @@ public class UseSocketCheckHTTP {
 		String host = "www.ncu.edu.tw";
 		int port = 80;
 
-		try {
-			Socket socket = new Socket(host, port);
+		try (Socket socket = new Socket(host, port);
 
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(
-					socket.getOutputStream()), true);
+				PrintWriter pw = new PrintWriter(new OutputStreamWriter(
+						socket.getOutputStream()), true);
+				Scanner sc = new Scanner(socket.getInputStream())) {
+
 			pw.printf("GET / HTTP/1.1\n");
-			pw.printf("HOST: " + host+"\n");
+			pw.printf("HOST: " + host + "\n");
 			pw.printf("Connection: close\r\n\r\n");
 
-
-			Scanner sc = new Scanner(socket.getInputStream());
 			while (sc.hasNextLine())
 				System.out.println(sc.nextLine());
 
-			sc.close();
-			pw.close();
-			socket.close();
 
 		} catch (UnknownHostException e) {
 

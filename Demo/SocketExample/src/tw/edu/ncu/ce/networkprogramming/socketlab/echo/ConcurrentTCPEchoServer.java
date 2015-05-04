@@ -53,13 +53,12 @@ class SubServer implements Runnable {
 
 	@Override
 	public void run() {
-		try {
+		try (Scanner sc = new Scanner(socketToClient.getInputStream());
+				PrintWriter pw = new PrintWriter(
+						socketToClient.getOutputStream())) {
 
 			ConcurrentTCPEchoServer.print("Client information :"
 					+ socketToClient.getRemoteSocketAddress());
-
-			Scanner sc = new Scanner(socketToClient.getInputStream());
-			PrintWriter pw = new PrintWriter(socketToClient.getOutputStream());
 
 			while (sc.hasNextLine()) {
 				String incomingMessage = sc.nextLine();

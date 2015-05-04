@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class TCPEchoServer {
 
 	public static void main(String[] args) {
-		
+
 		TCPEchoServer example = new TCPEchoServer();
 		example.startServer(12345);
 
@@ -17,14 +17,12 @@ public class TCPEchoServer {
 
 	public void startServer(int port) {
 
-		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+		try (ServerSocket serverSocket = new ServerSocket(port);
+				Socket newSocket = serverSocket.accept();
+				Scanner sc = new Scanner(newSocket.getInputStream());
+				PrintWriter pw = new PrintWriter(newSocket.getOutputStream())) {
 
-			Socket newSocket = serverSocket.accept();
 			print("Client information :" + newSocket.getRemoteSocketAddress());
-			
-			Scanner sc = new Scanner(newSocket.getInputStream());
-			PrintWriter pw = new PrintWriter(newSocket.getOutputStream());
 
 			while (sc.hasNextLine()) {
 				String incomingMessage = sc.nextLine();
@@ -32,17 +30,14 @@ public class TCPEchoServer {
 				pw.flush();
 			}
 			print("Client exits");
-			pw.close();
-			sc.close();
-
-			newSocket.close();
-			serverSocket.close();
+			
 		} catch (IOException e) {
-			print("Server Error :"+e.getMessage());
+			print("Server Error :" + e.getMessage());
 		}
 
 	}
-	public static void print(String message){
+
+	public static void print(String message) {
 		System.out.println(message);
 	}
 
