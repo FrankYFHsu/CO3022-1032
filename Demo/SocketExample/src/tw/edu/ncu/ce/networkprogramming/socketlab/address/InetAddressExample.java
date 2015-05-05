@@ -7,26 +7,26 @@ public class InetAddressExample {
 	public static void main(String args[]) {
 
 		try {
-			System.out.println("getLocalHost()");
-			System.out.println(InetAddress.getLocalHost());
-			System.out.println("-----------");
-			System.out.println("getLoopbackAddress()");
-			System.out.println(InetAddress.getLoopbackAddress());
-			System.out.println("-----------");
-			System.out.println("getByName(host)");
+			println("getLocalHost()");
+			println(InetAddress.getLocalHost());
+			println("-----------");
+			println("getLoopbackAddress()");
+			println(InetAddress.getLoopbackAddress());
+			println("-----------");
+			println("getByName(host)");
 			findIPbyHostName("www.ncu.edu.tw");
-			System.out.println("-----------");
-			System.out.println("getAllByName(host)");
+			println("-----------");
+			println("getAllByName(host)");
 			findAllIPsbyHostName("www.ncu.edu.tw");
-			System.out.println("-----------");
-			System.out.println("NetworkInterface");
+			println("-----------");
+			println("NetworkInterface");
 			showNetworkInterfaceInformation();
-	
-		} catch (SocketException e) {
 
+		} catch (SocketException e) {
+			println("Error:" + e.getMessage());
 		} catch (UnknownHostException e) {
-			
-			e.printStackTrace();
+
+			println("Error:" + e.getMessage());
 		}
 	}
 
@@ -34,9 +34,9 @@ public class InetAddressExample {
 
 		try {
 			InetAddress address = InetAddress.getByName(hostname);
-			System.out.println(address);
+			println(address);
 		} catch (UnknownHostException e) {
-			System.out.println("Could't find" + hostname);
+			println("Could't find" + hostname);
 		}
 
 	}
@@ -47,10 +47,10 @@ public class InetAddressExample {
 			InetAddress[] address = InetAddress.getAllByName(hostname);
 
 			for (int i = 0; i < address.length; i++) {
-				System.out.println(address[i]);
+				println(address[i]);
 			}
 		} catch (UnknownHostException e) {
-			System.out.println("Could't find" + hostname);
+			println("Could't find" + hostname);
 		}
 
 	}
@@ -60,14 +60,20 @@ public class InetAddressExample {
 		Enumeration<NetworkInterface> nets = NetworkInterface
 				.getNetworkInterfaces();
 		for (NetworkInterface netint : Collections.list(nets)) {
-			System.out.println("Display name:" + netint.getDisplayName());
-			System.out.println("Name: " + netint.getName());
+			println("Display name:" + netint.getDisplayName());
+			println("Name: " + netint.getName());
 
 			Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
 			for (InetAddress inetAddress : Collections.list(inetAddresses))
-				System.out.println("InetAddress: " + inetAddress);
+				println("InetAddress: " + inetAddress);
 
-			System.out.println();
 		}
+	}
+
+	public static void println(String str) {
+		System.out.println(str);
+	}
+	public static void println(InetAddress address){
+		System.out.println(address);
 	}
 }

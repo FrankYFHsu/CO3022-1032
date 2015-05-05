@@ -14,26 +14,19 @@ public class ConcurrentTCPEchoServer {
 	}
 
 	public void startServer(int port) {
-		ServerSocket serverSocket = null;
-		try {
-			serverSocket = new ServerSocket(port);
+
+		try (ServerSocket serverSocket = new ServerSocket(port)) {
 
 			while (true) {
 				Socket newSocket = serverSocket.accept();
-				Thread subServerThread = new Thread(new SubServer(newSocket));
-				subServerThread.start();
+				Thread clientHandler = new Thread(new ClientHandler(newSocket));
+				clientHandler.start();
 
 			}
 
 		} catch (IOException e) {
 			print("Server Error :" + e.getMessage());
-			if (serverSocket != null) {
-				try {
-					serverSocket.close();
-				} catch (IOException e1) {
-					print("Server Error :" + e.getMessage());
-				}
-			}
+
 		}
 
 	}
@@ -44,34 +37,50 @@ public class ConcurrentTCPEchoServer {
 
 }
 
-class SubServer implements Runnable {
-	private Socket socketToClient;
+class ClientHandler implements Runnable {
+	private Socket client;
+	private Scanner in;
+	PrintWriter out;
 
-	public SubServer(Socket socket) {
-		socketToClient = socket;
+	public ClientHandler(Socket socket) {
+		client = socket;
+		try {
+			in = new Scanner(client.getInputStream());
+			out = new PrintWriter(client.getOutputStream());
+		} catch (IOException e) {
+			ConcurrentTCPEchoServer.print("Server Error :" + e.getMessage());
+		}
+
 	}
 
 	@Override
 	public void run() {
-		try (Scanner sc = new Scanner(socketToClient.getInputStream());
-				PrintWriter pw = new PrintWriter(
-						socketToClient.getOutputStream())) {
+		try {
 
 			ConcurrentTCPEchoServer.print("Client information :"
-					+ socketToClient.getRemoteSocketAddress());
+					+ client.getRemoteSocketAddress());
 
-			while (sc.hasNextLine()) {
-				String incomingMessage = sc.nextLine();
-				pw.println(incomingMessage);
-				pw.flush();
+			while (in.hasNextLine()) {
+				String incomingMessage = in.nextLine();
+				out.println(incomingMessage);
+				out.flush();
 			}
 			ConcurrentTCPEchoServer.print("Client exits");
-			pw.close();
-			sc.close();
+			out.close();
+			in.close();
 
-			socketToClient.close();
+			client.close();
 		} catch (IOException e) {
 			ConcurrentTCPEchoServer.print("Server Error :" + e.getMessage());
+		} finally {
+			try {
+				if (client != null) {
+					client.close();
+				}
+			} catch (IOException e) {
+				ConcurrentTCPEchoServer
+						.print("Server Error :" + e.getMessage());
+			}
 		}
 
 	}
