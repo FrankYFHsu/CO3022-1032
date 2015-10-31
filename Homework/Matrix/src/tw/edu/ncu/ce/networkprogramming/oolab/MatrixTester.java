@@ -23,6 +23,21 @@ public class MatrixTester {
 		assertEquals(false,matrixA.equals(matrixB));
 	}
 	
+	@Test
+	public void checkEqual2() {
+		double[][] a = { { 1.0, 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0, 0.0 } };
+		double[][] b = { { 1.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 } };
+		Matrix matrixA = new Matrix(a);
+		Matrix matrixB = new Matrix(b);
+		try{
+			assertFalse("大小不同的陣列不應該相等", matrixA.equals(matrixB));
+		}catch (ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
+			fail("大小不同的陣列不應該相等");
+		}
+		
+	}
+	
 
 
 	@Test
