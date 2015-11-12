@@ -86,6 +86,16 @@ public class MatrixTester {
 		assertEquals(true,matrixA.multiply(matrixB).equals(matrixC));
 	}
 	@Test
+	public void checkMatrixMultiplication2() {
+		double[][] a = {{1.0,2.0,3.0},{4.0,5.0,6.0}};
+		Matrix matrixA = new Matrix(a);
+		Matrix matrixB = new Matrix(3,1,1);
+		double[][] c = {{6.0},{15.0}};
+		Matrix matrixC = new Matrix(c);
+		System.out.println(matrixC);
+		assertEquals(true,matrixA.multiply(matrixB).equals(matrixC));
+	}
+	@Test
 	public void checkMatrixScalarMultiplication() {
 		double[][] a = {{1.0,2.0,3.0},{4.0,5.0,6.0}};
 		Matrix matrixA = new Matrix(a);
