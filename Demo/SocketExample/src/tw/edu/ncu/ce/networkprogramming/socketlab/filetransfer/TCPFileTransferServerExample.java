@@ -6,6 +6,14 @@ import java.net.*;
 public class TCPFileTransferServerExample {
 	private ServerSocket socket;
 	private Socket clntSocket;
+	
+	public static void main(String[] args) throws IOException {
+		TCPFileTransferServerExample server = new TCPFileTransferServerExample();
+		server.acceptClientSocket();
+		server.deliverContent();
+		server.closeSocket();
+		
+	}
 
 	public TCPFileTransferServerExample() throws IOException {
 		this.socket = new ServerSocket(3333);
