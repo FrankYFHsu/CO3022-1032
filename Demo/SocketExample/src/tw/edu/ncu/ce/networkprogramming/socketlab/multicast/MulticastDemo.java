@@ -2,7 +2,7 @@ package tw.edu.ncu.ce.networkprogramming.socketlab.multicast;
 
 import java.io.IOException;
 
-public class Multicast {
+public class MulticastDemo {
 
 	public static void main(String[] args) throws IOException {
 

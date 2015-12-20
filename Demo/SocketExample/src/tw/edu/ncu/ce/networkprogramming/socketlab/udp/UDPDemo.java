@@ -12,7 +12,9 @@ public class UDPDemo {
 		UDPSenderExample udpClient = new UDPSenderExample();
 
 		udpClient.sendDatagram();
+		udpClient.closeSocket();
 		udpServer.receiveDatagram();
+		udpServer.closeSocet();
 
 	}
 

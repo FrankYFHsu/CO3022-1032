@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 public class MulticastReceiver {
-	// public static void main(String[] args) throws IOException
+	
 
 	private MulticastSocket socket = null;
 	private InetAddress broadcastAddress = null;
